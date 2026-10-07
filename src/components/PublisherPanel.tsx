@@ -183,7 +183,7 @@ export function PublisherPanel() {
     <View style={styles.publisherPanel}>
       <View style={styles.studioTaskHeading}>
         <View style={styles.studioTaskIcon}>
-          <Ionicons name="globe-outline" size={20} color="#7054E8" />
+          <Ionicons name="globe-outline" size={20} color="#A78BFA" />
         </View>
         <View style={styles.studioTaskHeadingCopy}>
           <Text style={styles.studioTaskEyebrow}>HUMAN-IN-THE-LOOP PUBLISHING</Text>
@@ -194,7 +194,7 @@ export function PublisherPanel() {
         </View>
       </View>
       <View style={styles.studioLimitation}>
-        <Ionicons name="shield-checkmark-outline" size={16} color="#9B742F" />
+        <Ionicons name="shield-checkmark-outline" size={16} color="#F2B33D" />
         <Text style={styles.studioLimitationText}>
           Tự đăng nhập, kiểm tra nội dung và bấm nút đăng cuối cùng. TDLUXY không tự gửi bài hoặc lưu mật khẩu/cookie sau khi đóng phiên.
         </Text>
@@ -218,7 +218,7 @@ export function PublisherPanel() {
               <Ionicons
                 name={icon}
                 size={16}
-                color={platform === value ? "#7054E8" : "#888593"}
+                color={platform === value ? "#A78BFA" : "#8C88A1"}
               />
               <Text
                 style={[
@@ -256,7 +256,7 @@ export function PublisherPanel() {
               disabled={busy}
               style={styles.publisherToolbarButton}
             >
-              <Ionicons name="cloud-upload-outline" size={15} color="#7054E8" />
+              <Ionicons name="cloud-upload-outline" size={15} color="#A78BFA" />
               <Text style={styles.publisherToolbarText}>Chọn video</Text>
             </Pressable>
             <Pressable
@@ -264,21 +264,21 @@ export function PublisherPanel() {
               onPress={() => void sendInput({ action: "back" })}
               style={styles.publisherToolbarButton}
             >
-              <Ionicons name="arrow-back" size={15} color="#7054E8" />
+              <Ionicons name="arrow-back" size={15} color="#A78BFA" />
             </Pressable>
             <Pressable
               accessibilityRole="button"
               onPress={() => void sendInput({ action: "reload" })}
               style={styles.publisherToolbarButton}
             >
-              <Ionicons name="refresh" size={15} color="#7054E8" />
+              <Ionicons name="refresh" size={15} color="#A78BFA" />
             </Pressable>
             <Pressable
               accessibilityRole="button"
               onPress={() => void stop()}
               style={[styles.publisherToolbarButton, styles.publisherStopButton]}
             >
-              <Ionicons name="close" size={15} color="#B55361" />
+              <Ionicons name="close" size={15} color="#F87171" />
             </Pressable>
           </View>
           {uploadName ? (
@@ -296,7 +296,7 @@ export function PublisherPanel() {
             </Pressable>
           ) : (
             <View style={[styles.publisherFrame, styles.publisherFrameLoading]}>
-              <ActivityIndicator size="large" color="#7658F6" />
+              <ActivityIndicator size="large" color="#8B7CFF" />
               <Text style={styles.publisherFrameText}>Đang kết nối và tải khung hình…</Text>
             </View>
           )}
@@ -306,7 +306,7 @@ export function PublisherPanel() {
               value={typing}
               onChangeText={setTyping}
               placeholder="Nhập caption hoặc nội dung vào trường đang được chọn"
-              placeholderTextColor="#A4A2AF"
+              placeholderTextColor="#9894AE"
               style={styles.publisherTypingInput}
             />
             <Pressable
@@ -337,14 +337,14 @@ export function PublisherPanel() {
               onPress={() => void sendInput({ action: "scroll", delta_y: -600 })}
               style={styles.publisherToolbarButton}
             >
-              <Ionicons name="chevron-up" size={16} color="#7054E8" />
+              <Ionicons name="chevron-up" size={16} color="#A78BFA" />
             </Pressable>
             <Pressable
               accessibilityRole="button"
               onPress={() => void sendInput({ action: "scroll", delta_y: 600 })}
               style={styles.publisherToolbarButton}
             >
-              <Ionicons name="chevron-down" size={16} color="#7054E8" />
+              <Ionicons name="chevron-down" size={16} color="#A78BFA" />
             </Pressable>
             <Text style={styles.publisherFrameText}>
               Khung hình làm mới mỗi ~1,7 giây · chạm vào ảnh để click.
