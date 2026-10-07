@@ -33,7 +33,7 @@ export function SettingsScreen({
 
       <View style={styles.accountSettingsCard}>
         <View style={styles.accountSettingsIcon}>
-          <Ionicons name="person-circle-outline" size={23} color="#7054E8" />
+          <Ionicons name="person-circle-outline" size={23} color="#A78BFA" />
         </View>
         <View style={styles.accountSettingsCopy}>
           <Text style={styles.accountSettingsTitle}>Tài khoản TDLUXY</Text>
@@ -87,7 +87,7 @@ export function SettingsScreen({
           />
         </View>
         <View style={styles.integrationFootnote}>
-          <Ionicons name="shield-checkmark-outline" size={17} color="#7054E8" />
+          <Ionicons name="shield-checkmark-outline" size={17} color="#A78BFA" />
           <Text style={styles.integrationFootnoteText}>
             Email và mã OTP chỉ gửi tới backend cục bộ; phiên Muse được lưu ngoài bundle app.
           </Text>
@@ -231,7 +231,7 @@ export function AdminScreen({
           <Ionicons
             name={refreshing ? "time-outline" : "refresh-outline"}
             size={16}
-            color="#F3E9D2"
+            color="#2B2214"
           />
           <Text style={styles.adminRefreshText}>
             {refreshing ? "Đang tải" : "Làm mới"}
@@ -255,7 +255,7 @@ export function AdminScreen({
           value={serviceOnline ? "Hoạt động" : "Chưa rõ"}
           detail={serviceOnline ? formatUptime(overview.backend.uptime_seconds) : "Chưa nhận dữ liệu"}
           icon="server-outline"
-          tint="#E9F6F0"
+          tint="#122419"
           color="#319477"
         />
         <AdminStat
@@ -264,7 +264,7 @@ export function AdminScreen({
           value={overview?.muse.authenticated ? "Đã kết nối" : "Chưa đăng nhập"}
           detail="Phiên Muse trên backend này"
           icon="sparkles-outline"
-          tint="#F1EDFF"
+          tint="#1F1A30"
           color="#7458E8"
         />
         <AdminStat
@@ -273,7 +273,7 @@ export function AdminScreen({
           value={String(overview?.jobs.running ?? 0)}
           detail={`${overview?.jobs.queued ?? 0} đang chờ · ${overview?.jobs.total ?? 0} tác vụ đã lưu`}
           icon="sync-outline"
-          tint="#FFF3E3"
+          tint="#2B2214"
           color="#C18738"
         />
       </View>
@@ -340,7 +340,7 @@ export function AdminScreen({
           style={({ pressed }) => [styles.adminSettingsButton, pressed && styles.buttonPressed]}
         >
           <Text style={styles.adminSettingsButtonText}>Cấu hình</Text>
-          <Ionicons name="arrow-forward" size={14} color="#E9D9B3" />
+          <Ionicons name="arrow-forward" size={14} color="#3A2E18" />
         </Pressable>
       </View>
     </View>
@@ -485,7 +485,7 @@ function MuseAccountManager() {
             keyboardType="number-pad"
             onChangeText={setCode}
             placeholder="Nhập mã OTP"
-            placeholderTextColor="#A4A2AF"
+            placeholderTextColor="#9894AE"
             style={styles.formInput}
             value={code}
           />
@@ -513,7 +513,7 @@ function MuseAccountManager() {
             keyboardType="email-address"
             onChangeText={setEmail}
             placeholder="Email tài khoản Muse"
-            placeholderTextColor="#A4A2AF"
+            placeholderTextColor="#9894AE"
             style={styles.formInput}
             value={email}
           />
@@ -611,7 +611,7 @@ function CapabilityRow({
       <Ionicons
         name={icon}
         size={16}
-        color={positive ? "#32977F" : "#92909E"}
+        color={positive ? "#34D399" : "#92909E"}
       />
       <Text style={styles.capabilityText}>{text}</Text>
     </View>
