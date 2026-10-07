@@ -7,7 +7,7 @@ export function InlineNotice({ tone, message }: { tone: "error" | "success"; mes
       <Ionicons
         name={tone === "error" ? "alert-circle-outline" : "checkmark-circle-outline"}
         size={15}
-        color={tone === "error" ? "#B44755" : "#32866D"}
+        color={tone === "error" ? "#F87171" : "#34D399"}
       />
       <Text style={[styles.inlineNoticeText, tone === "error" && styles.errorNoticeText]}>
         {message}
