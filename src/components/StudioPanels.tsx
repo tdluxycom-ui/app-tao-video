@@ -130,7 +130,7 @@ export function MuseMediaGallery({
             {media.length} ảnh · độ phân giải gốc có thể xem và lưu
           </Text>
         </View>
-        <Ionicons name="sparkles" size={18} color="#7658F6" />
+        <Ionicons name="sparkles" size={18} color="#8B7CFF" />
       </View>
       {errors.map((message, index) => (
         <InlineNotice key={`${index}-${message}`} tone="error" message={message} />
@@ -306,7 +306,7 @@ export function StudioTaskPanel({
     <View style={styles.studioTaskPanel}>
       <View style={styles.studioTaskHeading}>
         <View style={styles.studioTaskIcon}>
-          <Ionicons name={config.icon} size={20} color="#7054E8" />
+          <Ionicons name={config.icon} size={20} color="#A78BFA" />
         </View>
         <View style={styles.studioTaskHeadingCopy}>
           <Text style={styles.studioTaskEyebrow}>{config.eyebrow}</Text>
@@ -316,7 +316,7 @@ export function StudioTaskPanel({
       </View>
 
       <View style={styles.studioLimitation}>
-        <Ionicons name="information-circle-outline" size={16} color="#9B742F" />
+        <Ionicons name="information-circle-outline" size={16} color="#F2B33D" />
         <Text style={styles.studioLimitationText}>{config.limitation}</Text>
       </View>
 
@@ -331,7 +331,7 @@ export function StudioTaskPanel({
               pressed && styles.buttonPressed,
             ]}
           >
-            <Ionicons name="images-outline" size={16} color="#7054E8" />
+            <Ionicons name="images-outline" size={16} color="#A78BFA" />
             <Text style={styles.mediaPickButtonText}>
               {task === "collage" ? "Chọn 2–4 ảnh" : "Chọn ảnh cần chỉnh"}
             </Text>
@@ -391,7 +391,7 @@ export function StudioTaskPanel({
         value={brief}
         onChangeText={onBriefChange}
         placeholder={config.placeholder}
-        placeholderTextColor="#A4A2AF"
+        placeholderTextColor="#9894AE"
         style={styles.studioBriefInput}
       />
       {error ? <InlineNotice tone="error" message={error} /> : null}
@@ -417,7 +417,7 @@ export function StudioTaskPanel({
         <View style={styles.studioResultCard}>
           <View style={styles.studioResultHeader}>
             <View style={styles.studioResultIcon}>
-              <Ionicons name="sparkles" size={14} color="#7054E8" />
+              <Ionicons name="sparkles" size={14} color="#A78BFA" />
             </View>
             <Text style={styles.studioResultTitle}>Gợi ý từ TDLUXY</Text>
           </View>
@@ -524,18 +524,18 @@ export function VideoCreationModal({
             <View style={styles.generationOrbitOuter} />
             <View style={styles.generationOrbitInner} />
             <Animated.View style={[styles.generationCore, { opacity: pulse }]}>
-              <Ionicons name="videocam" size={30} color="#D7CBFF" />
+              <Ionicons name="videocam" size={30} color="#2E2750" />
             </Animated.View>
             <View style={[styles.generationNode, styles.generationNodeA]}>
-              <Ionicons name="image-outline" size={14} color="#F4C97A" />
+              <Ionicons name="image-outline" size={14} color="#F2B33D" />
             </View>
             <View style={[styles.generationNode, styles.generationNodeB]}>
-              <Ionicons name="sparkles" size={13} color="#A9E4D4" />
+              <Ionicons name="sparkles" size={13} color="#122419" />
             </View>
           </View>
 
           <View style={styles.generationStatusRow}>
-            <ActivityIndicator size="small" color="#7658F6" />
+            <ActivityIndicator size="small" color="#8B7CFF" />
             <Text style={styles.generationStatus}>{status}</Text>
             <Text style={styles.generationTimer}>
               {minutes}:{seconds}
@@ -545,8 +545,8 @@ export function VideoCreationModal({
           <View style={styles.generationTerminal}>
             <View style={styles.terminalTopbar}>
               <View style={styles.terminalLights}>
-                <View style={[styles.terminalLight, { backgroundColor: "#F17E82" }]} />
-                <View style={[styles.terminalLight, { backgroundColor: "#E8BC61" }]} />
+                <View style={[styles.terminalLight, { backgroundColor: "#F87171" }]} />
+                <View style={[styles.terminalLight, { backgroundColor: "#F2B33D" }]} />
                 <View style={[styles.terminalLight, { backgroundColor: "#69C59A" }]} />
               </View>
               <Text style={styles.terminalCaption}>creative-pipeline.log</Text>
