@@ -101,13 +101,13 @@ export function VideoLibraryScreen({
       </View>
 
       <View style={styles.librarySearch}>
-        <Ionicons name="search-outline" size={16} color="#898798" />
+        <Ionicons name="search-outline" size={16} color="#8C88A1" />
         <TextInput
           accessibilityLabel="Tìm trong thư viện video"
           value={search}
           onChangeText={setSearch}
           placeholder="Tìm theo prompt hoặc tên video"
-          placeholderTextColor="#A4A2AF"
+          placeholderTextColor="#9894AE"
           style={styles.librarySearchInput}
         />
         <Text style={styles.libraryCount}>{jobs.length}</Text>
@@ -129,7 +129,7 @@ export function VideoLibraryScreen({
       {loading ? (
         <View style={styles.libraryEmpty}>
           <View style={styles.libraryEmptyIcon}>
-            <Ionicons name="sync-outline" size={22} color="#7456E8" />
+            <Ionicons name="sync-outline" size={22} color="#A78BFA" />
           </View>
           <Text style={styles.libraryEmptyTitle}>Đang tải thư viện…</Text>
           <Text style={styles.libraryEmptyText}>Đang đồng bộ các tác vụ đã lưu từ backend.</Text>
@@ -143,7 +143,7 @@ export function VideoLibraryScreen({
                   <Ionicons
                     name={job.status === "completed" ? "videocam-outline" : "time-outline"}
                     size={19}
-                    color={job.status === "completed" ? "#7154DD" : "#B17D38"}
+                    color={job.status === "completed" ? "#A78BFA" : "#F2B33D"}
                   />
                 </View>
                 <View style={styles.libraryCardCopy}>
@@ -177,7 +177,7 @@ export function VideoLibraryScreen({
 
               {job.error ? (
                 <View style={styles.libraryJobError}>
-                  <Ionicons name="alert-circle-outline" size={14} color="#B44755" />
+                  <Ionicons name="alert-circle-outline" size={14} color="#F87171" />
                   <Text style={styles.libraryJobErrorText}>{job.error}</Text>
                 </View>
               ) : null}
@@ -202,7 +202,7 @@ export function VideoLibraryScreen({
                       <Text style={styles.libraryVideoName}>{video.name}</Text>
                       <Text style={styles.libraryVideoHint}>Phát video</Text>
                     </View>
-                    <Ionicons name="chevron-forward" size={16} color="#8E8B9A" />
+                    <Ionicons name="chevron-forward" size={16} color="#8C88A1" />
                   </Pressable>
                 );
               })}
@@ -239,7 +239,7 @@ export function VideoLibraryScreen({
       ) : (
         <View style={styles.libraryEmpty}>
           <View style={styles.libraryEmptyIcon}>
-            <Ionicons name={search ? "search-outline" : "film-outline"} size={22} color="#7456E8" />
+            <Ionicons name={search ? "search-outline" : "film-outline"} size={22} color="#A78BFA" />
           </View>
           <Text style={styles.libraryEmptyTitle}>
             {search ? "Không tìm thấy tác vụ" : "Chưa có video trong thư viện"}
