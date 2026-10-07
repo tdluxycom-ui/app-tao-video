@@ -1,0 +1,2 @@
+[console_scripts]
+muse-ai = muse_ai.cli:main

@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "TDLUXY Studio",
+    "slug": "sang-tao-ai",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#F7F7FB"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sangtaoai.app"
+    },
+    "android": {
+      "package": "com.sangtaoai.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#F7F7FB"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "name": "TDLUXY Studio",
+      "shortName": "TDLUXY",
+      "themeColor": "#7057FF",
+      "backgroundColor": "#F7F7FB"
+    },
+    "plugins": [
+      "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Cho phép TDLUXY chọn ảnh tham chiếu để tạo video theo yêu cầu của bạn."
+        }
+      ],
+      "expo-video"
+    ]
+  }
+}
