@@ -1104,7 +1104,7 @@ const categories = ["Tất cả", "Hình ảnh", "Video", "Âm thanh", "AI"];
 const tools: Tool[] = [
   {
     title: "Sáng tạo hình ảnh",
-    description: "Phác thảo concept và prompt hình ảnh cùng TDLUXY",
+    description: "Mô tả ý tưởng, nhận concept và prompt ảnh chi tiết",
     icon: "sparkles",
     accent: "#8B7CFF",
     tint: "#1F1A30",
@@ -1117,7 +1117,7 @@ const tools: Tool[] = [
   },
   {
     title: "Chỉnh sửa ảnh",
-    description: "Nhận quy trình chỉnh sửa và prompt theo phong cách mong muốn",
+    description: "Biến ảnh thường thành ảnh đẹp theo đúng phong cách bạn muốn",
     icon: "color-wand-outline",
     accent: "#D85F84",
     tint: "#2B1619",
@@ -1128,7 +1128,7 @@ const tools: Tool[] = [
   },
   {
     title: "Ghép ảnh",
-    description: "Lên bố cục và câu chuyện cho bộ ảnh của bạn",
+    description: "Biến nhiều ảnh rời rạc thành một câu chuyện thị giác",
     icon: "grid-outline",
     accent: "#31977D",
     tint: "#122419",
@@ -1139,7 +1139,7 @@ const tools: Tool[] = [
   },
   {
     title: "Tạo video AI",
-    description: "Biến câu lệnh hoặc hình ảnh thành video",
+    description: "Thổi chuyển động vào ý tưởng — video từ một dòng mô tả",
     icon: "videocam-outline",
     accent: "#F2B33D",
     tint: "#2B2214",
@@ -1150,7 +1150,7 @@ const tools: Tool[] = [
   },
   {
     title: "Biên tập video",
-    description: "Lên nhịp dựng, phụ đề và kế hoạch biên tập video",
+    description: "Kế hoạch dựng chuẩn chỉnh: timeline, điểm cắt, phụ đề",
     icon: "film-outline",
     accent: "#4B78CB",
     tint: "#1A2030",
@@ -1161,7 +1161,7 @@ const tools: Tool[] = [
   },
   {
     title: "Tạo nhạc AI",
-    description: "Phát triển concept, lời và brief âm nhạc",
+    description: "Từ cảm xúc đến giai điệu: concept, lời, brief nhạc",
     icon: "musical-notes-outline",
     accent: "#9A5DC3",
     tint: "#1F1A30",
@@ -1171,7 +1171,7 @@ const tools: Tool[] = [
   },
   {
     title: "Lịch đăng video",
-    description: "Mở trình duyệt riêng để người dùng tự đăng video",
+    description: "Chuẩn bị mọi thứ để đăng video đúng thời điểm",
     icon: "calendar-outline",
     accent: "#D06C4C",
     tint: "#2B2214",
@@ -1666,11 +1666,11 @@ function ExploreScreen({
             </Text>
           </View>
           <Text style={[styles.heroTitle, isMobile && styles.heroTitleMobile]}>
-            Ý tưởng của bạn,{"\n"}
-            <Text style={styles.heroTitleAccent}>bắt đầu từ đây.</Text>
+            Biến ý tưởng{"\n"}
+            <Text style={styles.heroTitleAccent}>thành tác phẩm.</Text>
           </Text>
           <Text style={[styles.heroDescription, isMobile && styles.heroDescriptionMobile]}>
-            Từ ý tưởng đầu tiên đến nội dung sẵn sàng chia sẻ — mọi công cụ sáng tạo trong một studio.
+            Trò chuyện với TDLUXY, tạo ảnh, dựng video, viết nhạc — cả một studio sáng tạo AI trong tầm tay bạn.
           </Text>
           <View style={styles.heroActions}>
             <Pressable
@@ -1747,7 +1747,7 @@ function ExploreScreen({
         <QuickStart
           icon="image-outline"
           title="Tạo ảnh AI"
-          subtitle="Biến mô tả thành hình ảnh"
+          subtitle="Mô tả bằng lời, nhận ảnh đẹp"
           color="#A78BFA"
           tint="#1F1A30"
           onPress={() => onOpenCreator("image")}
@@ -1766,7 +1766,7 @@ function ExploreScreen({
           <QuickStart
             icon="grid-outline"
             title="Khám phá bộ công cụ"
-            subtitle="Ảnh, âm thanh và hơn thế"
+            subtitle="Mọi công cụ sáng tạo, một nơi"
             color="#34D399"
             tint="#122419"
             onPress={() => onCategoryChange("Tất cả")}
@@ -2554,9 +2554,9 @@ function MuseScreen({
         <View style={styles.musePage}>
           <View style={styles.musePageIntro}>
             <Text style={styles.sectionEyebrow}>TDLUXY CREATIVE STUDIO</Text>
-            <Text style={styles.sectionHeading}>Muse chưa sẵn sàng</Text>
+            <Text style={styles.sectionHeading}>Sắp mở cửa rồi</Text>
             <Text style={styles.sectionSubheading}>
-              Quản trị viên cần thêm và xác minh tài khoản Muse vào nhóm dùng chung trước khi thành viên có thể sử dụng.
+              Quản trị viên đang chuẩn bị tài khoản Muse cho không gian này. Quay lại sau một chút nhé — trong lúc chờ, bạn có thể khám phá các công cụ bên dưới.
             </Text>
           </View>
           {error ? <InlineNotice tone="error" message={error} /> : null}
@@ -2567,9 +2567,9 @@ function MuseScreen({
       <View style={styles.musePage}>
         <View style={styles.musePageIntro}>
           <Text style={styles.sectionEyebrow}>TDLUXY CREATIVE STUDIO</Text>
-          <Text style={styles.sectionHeading}>Mở không gian cùng TDLUXY</Text>
+          <Text style={styles.sectionHeading}>Chào mừng đến studio</Text>
           <Text style={styles.sectionSubheading}>
-            Kết nối tài khoản Muse của bạn để trò chuyện và thử tạo video ngay trong studio.
+            Kết nối tài khoản Muse để bắt đầu trò chuyện và tạo video ngay tại đây.
           </Text>
         </View>
         <View style={styles.authCard}>
