@@ -126,90 +126,168 @@ function AccountGate({
   };
 
   return (
-    <SafeAreaView style={accessGateStyles.root}>
-      <View style={accessGateStyles.card}>
-        <View style={accessGateStyles.icon}>
-          <Ionicons name="sparkles" size={22} color="#7555EA" />
+    <SafeAreaView style={landingStyles.root}>
+      <StatusBar style="light" />
+      <LandingOrbs />
+      <ScrollView
+        contentContainerStyle={landingStyles.authScroll}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={landingStyles.authCard}>
+          <View style={landingStyles.unlockGlow} pointerEvents="none" />
+          <View style={landingStyles.brandRow}>
+            <View style={landingStyles.brandMark}>
+              <Ionicons name="sparkles" size={15} color="#FFFFFF" />
+            </View>
+            <Text style={landingStyles.brandText}>
+              TDLUXY <Text style={landingStyles.brandAccent}>STUDIO</Text>
+            </Text>
+          </View>
+          <Text style={landingStyles.authTitle}>
+            {registerMode ? "Tạo không gian của riêng bạn" : "Chào mừng trở lại studio"}
+          </Text>
+          <Text style={landingStyles.authSub}>
+            {registerMode
+              ? "Đăng ký để lưu mọi tác phẩm vào không gian sáng tạo riêng."
+              : "Đăng nhập để tiếp tục hành trình sáng tạo còn dang dở."}
+          </Text>
+          {initialError ? <Text style={landingStyles.unlockError}>{initialError}</Text> : null}
+          <Text style={landingStyles.authLabel}>EMAIL</Text>
+          <TextInput
+            accessibilityLabel="Email tài khoản TDLUXY"
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType="email-address"
+            onChangeText={setEmail}
+            onSubmitEditing={() => void submit()}
+            placeholder="ban@example.com"
+            placeholderTextColor="#6E6A85"
+            style={landingStyles.unlockInput}
+            value={email}
+            returnKeyType="next"
+          />
+          <Text style={landingStyles.authLabel}>MẬT KHẨU</Text>
+          <TextInput
+            accessibilityLabel="Mật khẩu tài khoản TDLUXY"
+            autoCapitalize="none"
+            autoCorrect={false}
+            onChangeText={setPassword}
+            onSubmitEditing={() => void submit()}
+            placeholder={registerMode ? "Ít nhất 12 ký tự" : "Mật khẩu của bạn"}
+            placeholderTextColor="#6E6A85"
+            secureTextEntry
+            style={landingStyles.unlockInput}
+            value={password}
+            returnKeyType="go"
+          />
+          {error ? <Text style={landingStyles.unlockError}>{error}</Text> : null}
+          <Pressable
+            accessibilityRole="button"
+            disabled={!email.trim() || !password || busy}
+            onPress={() => void submit()}
+            style={({ pressed }) => [
+              landingStyles.unlockButton,
+              (!email.trim() || !password || busy) && landingStyles.unlockButtonDisabled,
+              pressed && landingStyles.unlockButtonPressed,
+            ]}
+          >
+            {busy ? <ActivityIndicator size="small" color="#0B0912" /> : null}
+            <Text style={landingStyles.unlockButtonText}>
+              {busy ? "Đang xác thực..." : registerMode ? "Tạo tài khoản" : "Đăng nhập"}
+            </Text>
+            {!busy ? <Ionicons name="arrow-forward" size={15} color="#0B0912" /> : null}
+          </Pressable>
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => {
+              setRegisterMode((current) => !current);
+              setError("");
+            }}
+            style={landingStyles.authSwitch}
+          >
+            <Text style={landingStyles.authSwitchText}>
+              {registerMode ? "Đã có tài khoản? Đăng nhập" : "Chưa có tài khoản? Đăng ký ngay"}
+            </Text>
+          </Pressable>
+          <View style={landingStyles.unlockPrivacy}>
+            <Ionicons name="shield-checkmark-outline" size={13} color="#8C88A1" />
+            <Text style={landingStyles.unlockPrivacyText}>
+              Phiên đăng nhập được lưu an toàn trên thiết bị.
+            </Text>
+          </View>
         </View>
-        <Text style={accessGateStyles.eyebrow}>TDLUXY CREATIVE STUDIO</Text>
-        <Text style={accessGateStyles.title}>
-          {registerMode ? "Tạo tài khoản của bạn" : "Chào mừng trở lại"}
-        </Text>
-        <Text style={accessGateStyles.subtitle}>
-          {registerMode
-            ? "Đăng ký để lưu không gian sáng tạo riêng của bạn."
-            : "Đăng nhập để tiếp tục vào không gian sáng tạo."}
-        </Text>
-        {initialError ? <Text style={accessGateStyles.error}>{initialError}</Text> : null}
-        <TextInput
-          accessibilityLabel="Email tài khoản TDLUXY"
-          autoCapitalize="none"
-          autoCorrect={false}
-          keyboardType="email-address"
-          onChangeText={setEmail}
-          onSubmitEditing={() => void submit()}
-          placeholder="Email"
-          placeholderTextColor="#9693A1"
-          style={accessGateStyles.input}
-          value={email}
-          returnKeyType="next"
-        />
-        <TextInput
-          accessibilityLabel="Mật khẩu tài khoản TDLUXY"
-          autoCapitalize="none"
-          autoCorrect={false}
-          onChangeText={setPassword}
-          onSubmitEditing={() => void submit()}
-          placeholder={registerMode ? "Mật khẩu (ít nhất 12 ký tự)" : "Mật khẩu"}
-          placeholderTextColor="#9693A1"
-          secureTextEntry
-          style={accessGateStyles.input}
-          value={password}
-          returnKeyType="go"
-        />
-        {error ? <Text style={accessGateStyles.error}>{error}</Text> : null}
-        <Pressable
-          accessibilityRole="button"
-          disabled={!email.trim() || !password || busy}
-          onPress={() => void submit()}
-          style={({ pressed }) => [
-            accessGateStyles.button,
-            (!email.trim() || !password || busy) && accessGateStyles.buttonDisabled,
-            pressed && accessGateStyles.buttonPressed,
-          ]}
-        >
-          {busy ? <ActivityIndicator size="small" color="#FFFFFF" /> : null}
-          <Text style={accessGateStyles.buttonText}>
-            {busy ? "Đang xác thực..." : registerMode ? "Tạo tài khoản" : "Đăng nhập"}
-          </Text>
-        </Pressable>
-        <Pressable
-          accessibilityRole="button"
-          onPress={() => {
-            setRegisterMode((current) => !current);
-            setError("");
-          }}
-          style={accessGateStyles.accountModeButton}
-        >
-          <Text style={accessGateStyles.accountModeText}>
-            {registerMode ? "Đã có tài khoản? Đăng nhập" : "Chưa có tài khoản? Đăng ký"}
-          </Text>
-        </Pressable>
-        <View style={accessGateStyles.privacy}>
-          <Ionicons name="shield-checkmark-outline" size={14} color="#7C7694" />
-          <Text style={accessGateStyles.privacyText}>
-            Phiên đăng nhập được lưu an toàn trên thiết bị.
-          </Text>
-        </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
+
+function LandingOrbs() {
+  const drift = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    const anim = Animated.loop(
+      Animated.sequence([
+        Animated.timing(drift, { toValue: 1, duration: 8000, useNativeDriver: false }),
+        Animated.timing(drift, { toValue: 0, duration: 8000, useNativeDriver: false }),
+      ]),
+    );
+    anim.start();
+    return () => anim.stop();
+  }, [drift]);
+  const shift = drift.interpolate({ inputRange: [0, 1], outputRange: [0, 54] });
+  const shiftRev = drift.interpolate({ inputRange: [0, 1], outputRange: [36, -18] });
+  return (
+    <View style={landingStyles.aurora} pointerEvents="none">
+      <Animated.View style={[landingStyles.orbOne, { transform: [{ translateY: shift }] }]} />
+      <Animated.View style={[landingStyles.orbTwo, { transform: [{ translateY: shiftRev }] }]} />
+      <View style={landingStyles.orbThree} />
+      <View style={landingStyles.noise} />
+    </View>
+  );
+}
+
+const LANDING_FEATURES: Array<{
+  icon: keyof typeof Ionicons.glyphMap;
+  tint: string;
+  glow: string;
+  title: string;
+  text: string;
+}> = [
+  {
+    icon: "videocam",
+    tint: "#8B7CFF",
+    glow: "rgba(139,124,255,0.16)",
+    title: "Tạo video bằng AI",
+    text: "Chỉ cần một câu mô tả — AI dựng thành thước phim chuyển động đầy điện ảnh.",
+  },
+  {
+    icon: "chatbubbles",
+    tint: "#F2B33D",
+    glow: "rgba(242,179,61,0.14)",
+    title: "Trò chuyện cùng AI",
+    text: "Lên ý tưởng, viết kịch bản, hỏi đáp sáng tạo như có trợ lý bên cạnh.",
+  },
+  {
+    icon: "color-wand",
+    tint: "#F471B5",
+    glow: "rgba(244,113,181,0.14)",
+    title: "Vẽ & biến hóa ảnh",
+    text: "Tạo ảnh từ chữ, chỉnh sửa, ghép collage — đậm chất riêng của bạn.",
+  },
+  {
+    icon: "film",
+    tint: "#34D399",
+    glow: "rgba(52,211,153,0.13)",
+    title: "Thư viện tác phẩm",
+    text: "Mọi video và hình ảnh được lưu gọn gàng, xem lại và tải về bất cứ lúc nào.",
+  },
+];
 
 function RemoteAccessGate({ onAuthenticated }: { onAuthenticated: () => void }) {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const { width } = useWindowDimensions();
+  const isMobile = width < 920;
 
   const submit = async () => {
     if (!password || busy) return;
@@ -222,169 +300,658 @@ function RemoteAccessGate({ onAuthenticated }: { onAuthenticated: () => void }) 
       });
       onAuthenticated();
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "Không thể xác thực.");
+      setError(cause instanceof Error ? cause.message : "Mật khẩu chưa đúng, thử lại nhé.");
     } finally {
       setBusy(false);
     }
   };
 
   return (
-    <SafeAreaView style={accessGateStyles.root}>
-      <View style={accessGateStyles.card}>
-        <View style={accessGateStyles.icon}>
-          <Ionicons name="lock-closed" size={22} color="#7555EA" />
-        </View>
-        <Text style={accessGateStyles.eyebrow}>TDLUXY STUDIO · PRIVATE LINK</Text>
-        <Text style={accessGateStyles.title}>Không gian được bảo vệ</Text>
-        <Text style={accessGateStyles.subtitle}>
-          Nhập mật khẩu chia sẻ để tiếp tục vào studio.
-        </Text>
-        <TextInput
-          accessibilityLabel="Mật khẩu chia sẻ"
-          autoCapitalize="none"
-          autoCorrect={false}
-          onChangeText={setPassword}
-          onSubmitEditing={() => void submit()}
-          placeholder="Mật khẩu chia sẻ"
-          placeholderTextColor="#9693A1"
-          secureTextEntry
-          style={accessGateStyles.input}
-          value={password}
-          returnKeyType="go"
-        />
-        {error ? <Text style={accessGateStyles.error}>{error}</Text> : null}
-        <Pressable
-          accessibilityRole="button"
-          disabled={!password || busy}
-          onPress={() => void submit()}
-          style={({ pressed }) => [
-            accessGateStyles.button,
-            (!password || busy) && accessGateStyles.buttonDisabled,
-            pressed && accessGateStyles.buttonPressed,
-          ]}
-        >
-          {busy ? <ActivityIndicator size="small" color="#FFFFFF" /> : null}
-          <Text style={accessGateStyles.buttonText}>
-            {busy ? "Đang xác thực..." : "Mở không gian"}
+    <SafeAreaView style={landingStyles.root}>
+      <StatusBar style="light" />
+      <LandingOrbs />
+      <ScrollView
+        contentContainerStyle={[landingStyles.scroll, isMobile && landingStyles.scrollMobile]}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={[landingStyles.inner, isMobile && landingStyles.innerMobile]}>
+          <View style={landingStyles.topbar}>
+            <View style={landingStyles.brandRow}>
+              <View style={landingStyles.brandMark}>
+                <Ionicons name="sparkles" size={15} color="#FFFFFF" />
+              </View>
+              <Text style={landingStyles.brandText}>
+                TDLUXY <Text style={landingStyles.brandAccent}>STUDIO</Text>
+              </Text>
+            </View>
+            <View style={landingStyles.privateBadge}>
+              <Ionicons name="lock-closed" size={10} color="#C9BFFF" />
+              <Text style={landingStyles.privateBadgeText}>LIÊN KẾT RIÊNG TƯ</Text>
+            </View>
+          </View>
+
+          <View style={[landingStyles.hero, isMobile && landingStyles.heroMobile]}>
+            <View style={[landingStyles.heroCopy, isMobile && landingStyles.heroCopyMobile]}>
+              <View style={landingStyles.pill}>
+                <Ionicons name="sparkles" size={11} color="#C9BFFF" />
+                <Text style={landingStyles.pillText}>STUDIO SÁNG TẠO VIDEO BẰNG AI</Text>
+              </View>
+              <Text style={[landingStyles.headline, isMobile && landingStyles.headlineMobile]}>
+                Biến ý tưởng thành{"\n"}
+                <Text style={landingStyles.headlineAccent}>video điện ảnh.</Text>
+              </Text>
+              <Text style={landingStyles.sub}>
+                Gõ một dòng mô tả, nhận về thước phim chuyển động. Trò chuyện cùng AI, vẽ
+                ảnh, chỉnh sửa và quản lý mọi tác phẩm — tất cả gói gọn trong một studio
+                duy nhất, mở ra là dùng ngay.
+              </Text>
+              <View style={landingStyles.capabilityRow}>
+                {[
+                  { icon: "videocam-outline", label: "Video AI" },
+                  { icon: "chatbubbles-outline", label: "Chat AI" },
+                  { icon: "image-outline", label: "Ảnh AI" },
+                  { icon: "film-outline", label: "Thư viện" },
+                ].map((cap) => (
+                  <View key={cap.label} style={landingStyles.capability}>
+                    <Ionicons
+                      name={cap.icon as keyof typeof Ionicons.glyphMap}
+                      size={13}
+                      color="#B9AFFF"
+                    />
+                    <Text style={landingStyles.capabilityText}>{cap.label}</Text>
+                  </View>
+                ))}
+              </View>
+              <View style={landingStyles.statsRow}>
+                <View style={landingStyles.stat}>
+                  <Text style={landingStyles.statValue}>07</Text>
+                  <Text style={landingStyles.statLabel}>công cụ AI</Text>
+                </View>
+                <View style={landingStyles.statDivider} />
+                <View style={landingStyles.stat}>
+                  <Text style={landingStyles.statValue}>~5&apos;</Text>
+                  <Text style={landingStyles.statLabel}>có video đầu tay</Text>
+                </View>
+                <View style={landingStyles.statDivider} />
+                <View style={landingStyles.stat}>
+                  <Text style={landingStyles.statValue}>12h</Text>
+                  <Text style={landingStyles.statLabel}>phiên bảo mật</Text>
+                </View>
+              </View>
+            </View>
+
+            <View style={[landingStyles.unlockCard, isMobile && landingStyles.unlockCardMobile]}>
+              <View style={landingStyles.unlockGlow} pointerEvents="none" />
+              <View style={landingStyles.unlockIcon}>
+                <Ionicons name="lock-closed" size={20} color="#FFFFFF" />
+              </View>
+              <Text style={landingStyles.unlockEyebrow}>BƯỚC VÀO STUDIO</Text>
+              <Text style={landingStyles.unlockTitle}>Mở khóa không gian{"\n"}sáng tạo của bạn</Text>
+              <Text style={landingStyles.unlockSub}>
+                Nhập mật khẩu được chia sẻ để bắt đầu tạo video, trò chuyện và vẽ ảnh ngay
+                lập tức.
+              </Text>
+              <TextInput
+                accessibilityLabel="Mật khẩu chia sẻ"
+                autoCapitalize="none"
+                autoCorrect={false}
+                onChangeText={setPassword}
+                onSubmitEditing={() => void submit()}
+                placeholder="Nhập mật khẩu…"
+                placeholderTextColor="#6E6A85"
+                secureTextEntry
+                style={landingStyles.unlockInput}
+                value={password}
+                returnKeyType="go"
+              />
+              {error ? <Text style={landingStyles.unlockError}>{error}</Text> : null}
+              <Pressable
+                accessibilityRole="button"
+                disabled={!password || busy}
+                onPress={() => void submit()}
+                style={({ pressed }) => [
+                  landingStyles.unlockButton,
+                  (!password || busy) && landingStyles.unlockButtonDisabled,
+                  pressed && landingStyles.unlockButtonPressed,
+                ]}
+              >
+                {busy ? <ActivityIndicator size="small" color="#0B0912" /> : null}
+                <Text style={landingStyles.unlockButtonText}>
+                  {busy ? "Đang mở…" : "Bước vào Studio"}
+                </Text>
+                {!busy ? <Ionicons name="arrow-forward" size={15} color="#0B0912" /> : null}
+              </Pressable>
+              <View style={landingStyles.unlockPrivacy}>
+                <Ionicons name="shield-checkmark-outline" size={13} color="#8C88A1" />
+                <Text style={landingStyles.unlockPrivacyText}>
+                  Được bảo vệ · Tự hết hạn sau 12 giờ
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          <View style={landingStyles.sectionHead}>
+            <Text style={landingStyles.sectionEyebrow}>MỌI THỨ BẠN CẦN ĐỂ SÁNG TẠO</Text>
+            <Text style={landingStyles.sectionTitle}>Một studio, vô vàn khả năng</Text>
+          </View>
+          <View style={[landingStyles.featureGrid, isMobile && landingStyles.featureGridMobile]}>
+            {LANDING_FEATURES.map((feature) => (
+              <View
+                key={feature.title}
+                style={[landingStyles.featureCard, { borderColor: feature.tint + "2E" }]}
+              >
+                <View style={[landingStyles.featureIcon, { backgroundColor: feature.glow }]}>
+                  <Ionicons name={feature.icon} size={20} color={feature.tint} />
+                </View>
+                <Text style={landingStyles.featureTitle}>{feature.title}</Text>
+                <Text style={landingStyles.featureText}>{feature.text}</Text>
+              </View>
+            ))}
+          </View>
+
+          <Text style={landingStyles.footer}>
+            TDLUXY Studio · Không gian sáng tạo riêng tư của bạn
           </Text>
-        </Pressable>
-        <View style={accessGateStyles.privacy}>
-          <Ionicons name="shield-checkmark-outline" size={14} color="#7C7694" />
-          <Text style={accessGateStyles.privacyText}>
-            Phiên truy cập được bảo vệ và tự hết hạn sau 12 giờ.
-          </Text>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
-const accessGateStyles = StyleSheet.create({
+const landingStyles = StyleSheet.create({
   root: {
     flex: 1,
-    minHeight: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#F6F4FA",
-    padding: 22,
+    minHeight: "100%" as const,
+    backgroundColor: "#07050D",
   },
-  card: {
-    width: "100%",
-    maxWidth: 440,
-    borderWidth: 1,
-    borderColor: "#EAE7F1",
-    borderRadius: 24,
-    backgroundColor: "#FFFFFF",
-    padding: 28,
+  aurora: {
+    ...StyleSheet.absoluteFillObject,
+    overflow: "hidden",
+  },
+  orbOne: {
+    position: "absolute",
+    width: 620,
+    height: 620,
+    borderRadius: 310,
+    top: -180,
+    left: -140,
+    opacity: 0.85,
     ...Platform.select({
-      web: { boxShadow: "0 20px 60px rgba(41, 33, 63, 0.12)" },
-      default: { elevation: 5 },
+      web: {
+        backgroundImage:
+          "radial-gradient(circle, rgba(124,92,255,0.42) 0%, rgba(124,92,255,0) 68%)",
+      } as any,
+      default: { backgroundColor: "rgba(124,92,255,0.14)" },
     }),
   },
-  icon: {
-    width: 48,
-    height: 48,
+  orbTwo: {
+    position: "absolute",
+    width: 520,
+    height: 520,
+    borderRadius: 260,
+    top: "22%",
+    right: -160,
+    opacity: 0.8,
+    ...Platform.select({
+      web: {
+        backgroundImage:
+          "radial-gradient(circle, rgba(217,70,239,0.30) 0%, rgba(217,70,239,0) 68%)",
+      } as any,
+      default: { backgroundColor: "rgba(217,70,239,0.10)" },
+    }),
+  },
+  orbThree: {
+    position: "absolute",
+    width: 460,
+    height: 460,
+    borderRadius: 230,
+    bottom: -160,
+    left: "30%",
+    opacity: 0.7,
+    ...Platform.select({
+      web: {
+        backgroundImage:
+          "radial-gradient(circle, rgba(242,179,61,0.20) 0%, rgba(242,179,61,0) 68%)",
+      } as any,
+      default: { backgroundColor: "rgba(242,179,61,0.08)" },
+    }),
+  },
+  noise: {
+    ...StyleSheet.absoluteFillObject,
+    opacity: 0.5,
+    ...Platform.select({
+      web: {
+        backgroundImage:
+          "radial-gradient(rgba(255,255,255,0.045) 1px, transparent 1px)",
+        backgroundSize: "26px 26px",
+      } as any,
+      default: {},
+    }),
+  },
+  scroll: {
+    flexGrow: 1,
+    alignItems: "center",
+    paddingVertical: 34,
+    paddingHorizontal: 28,
+  },
+  scrollMobile: {
+    paddingVertical: 24,
+    paddingHorizontal: 18,
+  },
+  inner: {
+    width: "100%",
+    maxWidth: 1120,
+  },
+  innerMobile: {
+    maxWidth: 560,
+  },
+  topbar: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 54,
+  },
+  brandRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  brandMark: {
+    width: 34,
+    height: 34,
+    borderRadius: 11,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 16,
-    backgroundColor: "#F0ECFF",
-    marginBottom: 18,
+    backgroundColor: "#7C5CFF",
+    ...Platform.select({
+      web: { boxShadow: "0 6px 24px rgba(124,92,255,0.55)" },
+      default: { elevation: 4 },
+    }),
   },
-  eyebrow: {
-    color: "#8068D8",
+  brandText: {
+    color: "#FFFFFF",
+    fontSize: 15,
+    fontWeight: "800",
+    letterSpacing: 2.2,
+  },
+  brandAccent: {
+    color: "#A78BFA",
+  },
+  privateBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    borderWidth: 1,
+    borderColor: "rgba(201,191,255,0.28)",
+    backgroundColor: "rgba(124,92,255,0.12)",
+    borderRadius: 999,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+  },
+  privateBadgeText: {
+    color: "#C9BFFF",
     fontSize: 10,
     fontWeight: "800",
-    letterSpacing: 1.3,
+    letterSpacing: 1.4,
   },
-  title: {
-    color: "#262438",
-    fontSize: 25,
-    fontWeight: "800",
-    letterSpacing: -0.7,
-    marginTop: 9,
-  },
-  subtitle: {
-    color: "#777486",
-    fontSize: 14,
-    lineHeight: 21,
-    marginTop: 8,
-    marginBottom: 20,
-  },
-  input: {
-    minHeight: 50,
-    borderWidth: 1,
-    borderColor: "#E2DFEA",
-    borderRadius: 13,
-    backgroundColor: "#FBFAFD",
-    color: "#29263B",
-    fontSize: 15,
-    paddingHorizontal: 15,
-  },
-  accountModeButton: {
+  hero: {
+    flexDirection: "row",
     alignItems: "center",
-    marginTop: 16,
+    gap: 56,
+    marginBottom: 72,
   },
-  accountModeText: {
-    color: "#7054E8",
+  heroMobile: {
+    flexDirection: "column",
+    gap: 34,
+    marginBottom: 52,
+  },
+  heroCopy: {
+    flex: 1.15,
+  },
+  heroCopyMobile: {
+    flex: 0,
+    width: "100%",
+  },
+  pill: {
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "flex-start",
+    gap: 7,
+    borderWidth: 1,
+    borderColor: "rgba(167,139,250,0.35)",
+    backgroundColor: "rgba(124,92,255,0.10)",
+    borderRadius: 999,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    marginBottom: 22,
+  },
+  pillText: {
+    color: "#C9BFFF",
+    fontSize: 10.5,
+    fontWeight: "800",
+    letterSpacing: 1.8,
+  },
+  headline: {
+    color: "#FFFFFF",
+    fontSize: 54,
+    fontWeight: "800",
+    letterSpacing: -1.6,
+    lineHeight: 62,
+    marginBottom: 18,
+  },
+  headlineMobile: {
+    fontSize: 38,
+    lineHeight: 44,
+    letterSpacing: -1,
+  },
+  headlineAccent: {
+    ...Platform.select({
+      web: {
+        backgroundImage: "linear-gradient(100deg, #A78BFA 10%, #F0ABFC 55%, #FCD34D 100%)",
+        backgroundClip: "text",
+        color: "transparent",
+      } as any,
+      default: { color: "#C4B5FD" },
+    }),
+  },
+  sub: {
+    color: "#B9B4CC",
+    fontSize: 16,
+    lineHeight: 26,
+    marginBottom: 26,
+    maxWidth: 520,
+  },
+  capabilityRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 10,
+    marginBottom: 30,
+  },
+  capability: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 7,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.10)",
+    backgroundColor: "rgba(255,255,255,0.04)",
+    borderRadius: 12,
+    paddingHorizontal: 13,
+    paddingVertical: 9,
+  },
+  capabilityText: {
+    color: "#D9D5E8",
     fontSize: 13,
-    fontWeight: "700",
+    fontWeight: "600",
   },
-  error: {
-    color: "#A84450",
+  statsRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 22,
+  },
+  stat: {
+    gap: 3,
+  },
+  statValue: {
+    color: "#FFFFFF",
+    fontSize: 26,
+    fontWeight: "800",
+    letterSpacing: -0.5,
+  },
+  statLabel: {
+    color: "#8C88A1",
+    fontSize: 12,
+  },
+  statDivider: {
+    width: 1,
+    height: 38,
+    backgroundColor: "rgba(255,255,255,0.10)",
+  },
+  unlockCard: {
+    flex: 0.85,
+    width: "100%",
+    maxWidth: 400,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.12)",
+    borderRadius: 26,
+    backgroundColor: "rgba(20,15,32,0.78)",
+    padding: 30,
+    overflow: "hidden",
+    ...Platform.select({
+      web: {
+        backdropFilter: "blur(22px)",
+        boxShadow: "0 30px 90px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.08)",
+      } as any,
+      default: { elevation: 8 },
+    }),
+  },
+  unlockCardMobile: {
+    maxWidth: 560,
+  },
+  unlockGlow: {
+    position: "absolute",
+    width: 300,
+    height: 300,
+    borderRadius: 150,
+    top: -110,
+    right: -90,
+    opacity: 0.9,
+    ...Platform.select({
+      web: {
+        backgroundImage:
+          "radial-gradient(circle, rgba(124,92,255,0.35) 0%, rgba(124,92,255,0) 70%)",
+      } as any,
+      default: { backgroundColor: "rgba(124,92,255,0.12)" },
+    }),
+  },
+  unlockIcon: {
+    width: 46,
+    height: 46,
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#7C5CFF",
+    marginBottom: 20,
+    ...Platform.select({
+      web: { boxShadow: "0 8px 26px rgba(124,92,255,0.55)" },
+      default: { elevation: 4 },
+    }),
+  },
+  unlockEyebrow: {
+    color: "#A78BFA",
+    fontSize: 10,
+    fontWeight: "800",
+    letterSpacing: 2,
+    marginBottom: 10,
+  },
+  unlockTitle: {
+    color: "#FFFFFF",
+    fontSize: 24,
+    fontWeight: "800",
+    letterSpacing: -0.6,
+    lineHeight: 31,
+    marginBottom: 10,
+  },
+  unlockSub: {
+    color: "#9B97B0",
+    fontSize: 13.5,
+    lineHeight: 21,
+    marginBottom: 22,
+  },
+  unlockInput: {
+    minHeight: 52,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.14)",
+    borderRadius: 14,
+    backgroundColor: "rgba(255,255,255,0.05)",
+    color: "#FFFFFF",
+    fontSize: 15,
+    paddingHorizontal: 16,
+  },
+  unlockError: {
+    color: "#F87171",
     fontSize: 13,
     marginTop: 10,
   },
-  button: {
-    minHeight: 50,
+  unlockButton: {
+    minHeight: 52,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: 9,
-    borderRadius: 13,
-    backgroundColor: "#7254E8",
+    borderRadius: 14,
+    backgroundColor: "#FFFFFF",
     marginTop: 14,
+    ...Platform.select({
+      web: { boxShadow: "0 10px 34px rgba(255,255,255,0.16)" },
+      default: { elevation: 3 },
+    }),
   },
-  buttonDisabled: {
-    opacity: 0.55,
+  unlockButtonDisabled: {
+    opacity: 0.45,
   },
-  buttonPressed: {
-    opacity: 0.82,
+  unlockButtonPressed: {
+    opacity: 0.85,
   },
-  buttonText: {
-    color: "#FFFFFF",
-    fontSize: 14,
+  unlockButtonText: {
+    color: "#0B0912",
+    fontSize: 15,
     fontWeight: "800",
   },
-  privacy: {
+  unlockPrivacy: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: 7,
     marginTop: 18,
   },
-  privacyText: {
-    color: "#7C7694",
-    fontSize: 11,
+  unlockPrivacyText: {
+    color: "#8C88A1",
+    fontSize: 11.5,
+  },
+  sectionHead: {
+    alignItems: "center",
+    marginBottom: 26,
+  },
+  sectionEyebrow: {
+    color: "#A78BFA",
+    fontSize: 10.5,
+    fontWeight: "800",
+    letterSpacing: 2.4,
+    marginBottom: 10,
+  },
+  sectionTitle: {
+    color: "#FFFFFF",
+    fontSize: 30,
+    fontWeight: "800",
+    letterSpacing: -0.8,
+  },
+  featureGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 16,
+    marginBottom: 40,
+  },
+  featureGridMobile: {
+    flexDirection: "column",
+  },
+  featureCard: {
+    flexGrow: 1,
+    flexBasis: "22%",
+    minWidth: 220,
+    borderWidth: 1,
+    borderRadius: 20,
+    backgroundColor: "rgba(255,255,255,0.03)",
+    padding: 22,
+    ...Platform.select({
+      web: { backdropFilter: "blur(12px)" } as any,
+      default: {},
+    }),
+  },
+  featureIcon: {
+    width: 46,
+    height: 46,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 16,
+  },
+  featureTitle: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "800",
+    marginBottom: 8,
+  },
+  featureText: {
+    color: "#9B97B0",
+    fontSize: 13.5,
+    lineHeight: 21,
+  },
+  footer: {
+    color: "#5E5A75",
+    fontSize: 12,
+    textAlign: "center",
+    paddingBottom: 12,
+  },
+  authScroll: {
+    flexGrow: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 40,
+    paddingHorizontal: 20,
+  },
+  authCard: {
+    width: "100%",
+    maxWidth: 440,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.12)",
+    borderRadius: 26,
+    backgroundColor: "rgba(20,15,32,0.82)",
+    padding: 32,
+    overflow: "hidden",
+    ...Platform.select({
+      web: {
+        backdropFilter: "blur(22px)",
+        boxShadow: "0 30px 90px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.08)",
+      } as any,
+      default: { elevation: 8 },
+    }),
+  },
+  authTitle: {
+    color: "#FFFFFF",
+    fontSize: 24,
+    fontWeight: "800",
+    letterSpacing: -0.6,
+    marginTop: 22,
+    marginBottom: 8,
+  },
+  authSub: {
+    color: "#9B97B0",
+    fontSize: 13.5,
+    lineHeight: 21,
+    marginBottom: 22,
+  },
+  authLabel: {
+    color: "#8C88A1",
+    fontSize: 10,
+    fontWeight: "800",
+    letterSpacing: 1.6,
+    marginBottom: 8,
+    marginTop: 14,
+  },
+  authSwitch: {
+    alignItems: "center",
+    marginTop: 18,
+  },
+  authSwitchText: {
+    color: "#A78BFA",
+    fontSize: 13.5,
+    fontWeight: "700",
+  },
+  loadingWrap: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 22,
   },
 });
 
@@ -539,8 +1106,8 @@ const tools: Tool[] = [
     title: "Sáng tạo hình ảnh",
     description: "Phác thảo concept và prompt hình ảnh cùng TDLUXY",
     icon: "sparkles",
-    accent: "#7658F6",
-    tint: "#F0ECFF",
+    accent: "#8B7CFF",
+    tint: "#1F1A30",
     category: "AI",
     status: "Ý TƯỞNG AI",
     mode: "image",
@@ -553,7 +1120,7 @@ const tools: Tool[] = [
     description: "Nhận quy trình chỉnh sửa và prompt theo phong cách mong muốn",
     icon: "color-wand-outline",
     accent: "#D85F84",
-    tint: "#FFF0F4",
+    tint: "#2B1619",
     category: "Hình ảnh",
     tab: "edit-image",
     assistantPrompt:
@@ -564,7 +1131,7 @@ const tools: Tool[] = [
     description: "Lên bố cục và câu chuyện cho bộ ảnh của bạn",
     icon: "grid-outline",
     accent: "#31977D",
-    tint: "#E9F8F3",
+    tint: "#122419",
     category: "Hình ảnh",
     tab: "collage",
     assistantPrompt:
@@ -574,8 +1141,8 @@ const tools: Tool[] = [
     title: "Tạo video AI",
     description: "Biến câu lệnh hoặc hình ảnh thành video",
     icon: "videocam-outline",
-    accent: "#D18B34",
-    tint: "#FFF4E5",
+    accent: "#F2B33D",
+    tint: "#2B2214",
     category: "Video",
     status: "TDLUXY VIDEO",
     mode: "video",
@@ -586,7 +1153,7 @@ const tools: Tool[] = [
     description: "Lên nhịp dựng, phụ đề và kế hoạch biên tập video",
     icon: "film-outline",
     accent: "#4B78CB",
-    tint: "#EDF3FF",
+    tint: "#1A2030",
     category: "Video",
     tab: "edit-video",
     assistantPrompt:
@@ -597,7 +1164,7 @@ const tools: Tool[] = [
     description: "Phát triển concept, lời và brief âm nhạc",
     icon: "musical-notes-outline",
     accent: "#9A5DC3",
-    tint: "#F6EEFC",
+    tint: "#1F1A30",
     category: "Âm thanh",
     assistantPrompt:
       "Hãy giúp tôi phát triển concept âm nhạc từ mô tả: thể loại, cảm xúc, nhịp độ, nhạc cụ, cấu trúc và lời nháp nếu được yêu cầu. Nói rõ đây là brief sáng tác, không phải tệp nhạc đã tạo.",
@@ -607,7 +1174,7 @@ const tools: Tool[] = [
     description: "Mở trình duyệt riêng để người dùng tự đăng video",
     icon: "calendar-outline",
     accent: "#D06C4C",
-    tint: "#FFF0E9",
+    tint: "#2B2214",
     category: "Video",
     tab: "publish",
   },
@@ -820,8 +1387,14 @@ export default function App() {
 
   if (!remoteAccess.ready) {
     return (
-      <SafeAreaView style={accessGateStyles.root}>
-        <ActivityIndicator size="large" color="#7555EA" />
+      <SafeAreaView style={landingStyles.root}>
+        <LandingOrbs />
+        <View style={landingStyles.loadingWrap}>
+          <View style={landingStyles.brandMark}>
+            <Ionicons name="sparkles" size={18} color="#FFFFFF" />
+          </View>
+          <ActivityIndicator size="large" color="#A78BFA" />
+        </View>
       </SafeAreaView>
     );
   }
@@ -836,8 +1409,14 @@ export default function App() {
   }
   if (!accountReady) {
     return (
-      <SafeAreaView style={accessGateStyles.root}>
-        <ActivityIndicator size="large" color="#7555EA" />
+      <SafeAreaView style={landingStyles.root}>
+        <LandingOrbs />
+        <View style={landingStyles.loadingWrap}>
+          <View style={landingStyles.brandMark}>
+            <Ionicons name="sparkles" size={18} color="#FFFFFF" />
+          </View>
+          <ActivityIndicator size="large" color="#A78BFA" />
+        </View>
       </SafeAreaView>
     );
   }
@@ -847,7 +1426,7 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar style="dark" />
+      <StatusBar style="light" />
       <View style={[styles.app, !isDesktop && styles.appMobile]}>
         {isDesktop ? (
           <View style={styles.sidebar}>
@@ -886,7 +1465,7 @@ export default function App() {
             <View style={styles.sidebarBottom}>
               <View style={styles.sidePlanCard}>
                 <View style={styles.planIcon}>
-                  <Ionicons name="sparkles" size={16} color="#7555EA" />
+                  <Ionicons name="sparkles" size={16} color="#A78BFA" />
                 </View>
                 <Text style={styles.planTitle}>TDLUXY Studio</Text>
                 <Text style={styles.planBody}>
@@ -908,7 +1487,7 @@ export default function App() {
               <Brand />
               <View style={styles.mobileHeaderActions}>
                 <View style={styles.mobileStudioBadge}>
-                  <Ionicons name="sparkles" size={12} color="#7254E8" />
+                  <Ionicons name="sparkles" size={12} color="#7C5CFF" />
                   <Text style={styles.mobileStudioBadgeText}>AI STUDIO</Text>
                 </View>
                 <Pressable
@@ -1021,7 +1600,7 @@ export default function App() {
                   <Ionicons
                     name={navigation.find((nav) => nav.label === item)?.icon ?? "settings-outline"}
                     size={21}
-                    color={screen === item ? "#7054E8" : "#858392"}
+                    color={screen === item ? "#A78BFA" : "#858392"}
                   />
                 </View>
                 <Text
@@ -1169,8 +1748,8 @@ function ExploreScreen({
           icon="image-outline"
           title="Tạo ảnh AI"
           subtitle="Biến mô tả thành hình ảnh"
-          color="#7555EA"
-          tint="#F0ECFF"
+          color="#A78BFA"
+          tint="#1F1A30"
           onPress={() => onOpenCreator("image")}
           isMobile={isMobile}
         />
@@ -1178,8 +1757,8 @@ function ExploreScreen({
           icon="videocam-outline"
           title="Tạo video AI"
           subtitle="Thổi chuyển động vào ý tưởng"
-          color="#D18B34"
-          tint="#FFF4E5"
+          color="#F2B33D"
+          tint="#2B2214"
           onPress={() => onOpenCreator("video")}
           isMobile={isMobile}
         />
@@ -1188,8 +1767,8 @@ function ExploreScreen({
             icon="grid-outline"
             title="Khám phá bộ công cụ"
             subtitle="Ảnh, âm thanh và hơn thế"
-            color="#32977F"
-            tint="#EAF8F3"
+            color="#34D399"
+            tint="#122419"
             onPress={() => onCategoryChange("Tất cả")}
           />
         ) : null}
@@ -1204,13 +1783,13 @@ function ExploreScreen({
             </Text>
           </View>
           <View style={[styles.searchBox, isMobile && styles.searchBoxMobile]}>
-            <Ionicons name="search-outline" size={17} color="#898798" />
+            <Ionicons name="search-outline" size={17} color="#8C88A1" />
             <TextInput
               accessibilityLabel="Tìm công cụ"
               value={search}
               onChangeText={onSearchChange}
               placeholder="Tìm công cụ"
-              placeholderTextColor="#A4A2AF"
+              placeholderTextColor="#9894AE"
               style={[styles.searchInput, isMobile && styles.searchInputMobile]}
               returnKeyType="search"
             />
@@ -1295,7 +1874,7 @@ function HeroArtwork() {
       <View style={styles.artCircleMiddle} />
       <View style={styles.artCircleInner} />
       <View style={styles.artSparkle}>
-        <Ionicons name="sparkles" size={35} color="#7555EA" />
+        <Ionicons name="sparkles" size={35} color="#A78BFA" />
       </View>
       <View style={[styles.artBadge, styles.artBadgeImage]}>
         <Ionicons name="image-outline" size={18} color="#EB7194" />
@@ -1379,7 +1958,7 @@ function QuickStart({
         <Ionicons
           name="arrow-forward"
           size={14}
-          color={icon === "image-outline" ? "#7054E8" : color}
+          color={icon === "image-outline" ? "#A78BFA" : color}
         />
       </View>
     </Pressable>
@@ -1996,7 +2575,7 @@ function MuseScreen({
         <View style={styles.authCard}>
           <View style={styles.authIllustration}>
             <View style={styles.authIllustrationTile}>
-              <Ionicons name="chatbubbles" size={27} color="#7658F6" />
+              <Ionicons name="chatbubbles" size={27} color="#8B7CFF" />
             </View>
             <View style={styles.authIllustrationSpark}>
               <Ionicons name="sparkles" size={15} color="#D69B45" />
@@ -2019,7 +2598,7 @@ function MuseScreen({
                 autoComplete="email"
                 keyboardType="email-address"
                 placeholder="tenban@email.com"
-                placeholderTextColor="#A4A2AF"
+                placeholderTextColor="#9894AE"
                 value={email}
                 onChangeText={setEmail}
                 style={styles.formInput}
@@ -2033,7 +2612,7 @@ function MuseScreen({
                 autoComplete="one-time-code"
                 keyboardType="number-pad"
                 placeholder="Nhập mã trong email"
-                placeholderTextColor="#A4A2AF"
+                placeholderTextColor="#9894AE"
                 value={code}
                 onChangeText={setCode}
                 style={styles.formInput}
@@ -2164,7 +2743,7 @@ function MuseScreen({
               <Ionicons
                 name={icon}
                 size={15}
-                color={activeTab === tab ? "#7054E8" : "#8D8B99"}
+                color={activeTab === tab ? "#A78BFA" : "#8D8B99"}
               />
               <Text style={[styles.museTabText, activeTab === tab && styles.museTabTextActive]}>
                 {label}
@@ -2195,7 +2774,7 @@ function MuseScreen({
                     >
                       {message.role !== "user" ? (
                         <View style={styles.messageAvatar}>
-                          <Ionicons name="sparkles" size={12} color="#7054E8" />
+                          <Ionicons name="sparkles" size={12} color="#A78BFA" />
                         </View>
                       ) : null}
                       <View
@@ -2223,7 +2802,7 @@ function MuseScreen({
               ) : (
                 <View style={styles.chatWelcome}>
                   <View style={styles.chatWelcomeIcon}>
-                    <Ionicons name="sparkles" size={22} color="#7456E8" />
+                    <Ionicons name="sparkles" size={22} color="#A78BFA" />
                   </View>
                   <Text style={styles.chatWelcomeTitle}>Chào bạn, mình là TDLUXY.</Text>
                   <Text style={styles.chatWelcomeBody}>
@@ -2257,9 +2836,9 @@ function MuseScreen({
               {busy ? (
                 <View style={styles.loadingLine}>
                   <View style={styles.loadingSparkle}>
-                    <Ionicons name="sparkles" size={14} color="#7658F6" />
+                    <Ionicons name="sparkles" size={14} color="#8B7CFF" />
                   </View>
-                  <ActivityIndicator size="small" color="#7658F6" />
+                  <ActivityIndicator size="small" color="#8B7CFF" />
                   <Text style={styles.loadingText}>TDLUXY đang nghĩ cùng bạn…</Text>
                 </View>
               ) : null}
@@ -2272,7 +2851,7 @@ function MuseScreen({
                 editable={!busy}
                 multiline
                 placeholder="Chia sẻ ý tưởng của bạn với TDLUXY…"
-                placeholderTextColor="#A4A2AF"
+                placeholderTextColor="#9894AE"
                 value={draft}
                 onChangeText={setDraft}
                 style={styles.chatInput}
@@ -2354,7 +2933,7 @@ function MuseScreen({
                   value={videoIdeaGoal}
                   onChangeText={setVideoIdeaGoal}
                   placeholder="Mục tiêu: ra mắt, bán hàng, tăng nhận diện…"
-                  placeholderTextColor="#A4A2AF"
+                  placeholderTextColor="#9894AE"
                   style={styles.contentIdeaInput}
                 />
                 <TextInput
@@ -2363,7 +2942,7 @@ function MuseScreen({
                   value={videoIdeaAudience}
                   onChangeText={setVideoIdeaAudience}
                   placeholder="Khách hàng mục tiêu"
-                  placeholderTextColor="#A4A2AF"
+                  placeholderTextColor="#9894AE"
                   style={styles.contentIdeaInput}
                 />
               </View>
@@ -2378,9 +2957,9 @@ function MuseScreen({
                 ]}
               >
                 {busy ? (
-                  <ActivityIndicator size="small" color="#7658F6" />
+                  <ActivityIndicator size="small" color="#8B7CFF" />
                 ) : (
-                  <Ionicons name="sparkles" size={14} color="#7658F6" />
+                  <Ionicons name="sparkles" size={14} color="#8B7CFF" />
                 )}
                 <Text style={styles.contentIdeaButtonText}>
                   {busy ? "Đang phác thảo…" : "Gợi ý concept & kịch bản"}
@@ -2390,7 +2969,7 @@ function MuseScreen({
                 <View style={styles.studioResultCard}>
                   <View style={styles.studioResultHeader}>
                     <View style={styles.studioResultIcon}>
-                      <Ionicons name="sparkles" size={14} color="#7054E8" />
+                      <Ionicons name="sparkles" size={14} color="#A78BFA" />
                     </View>
                     <Text style={styles.studioResultTitle}>Concept TDLUXY đề xuất</Text>
                   </View>
@@ -2420,7 +2999,7 @@ function MuseScreen({
               multiline
               textAlignVertical="top"
               placeholder="Ví dụ: Video 10 giây giới thiệu ly cà phê trên bàn gỗ, ánh nắng sớm chiếu qua cửa sổ, máy quay tiến chậm, tông màu ấm..."
-              placeholderTextColor="#A4A2AF"
+              placeholderTextColor="#9894AE"
               value={videoPrompt}
               onChangeText={setVideoPrompt}
               style={styles.videoPromptInput}
@@ -2442,7 +3021,7 @@ function MuseScreen({
                 disabled={busy}
                 style={styles.addReferenceButton}
               >
-                <Ionicons name="add" size={16} color="#7054E8" />
+                <Ionicons name="add" size={16} color="#A78BFA" />
                 <Text style={styles.addReferenceText}>Thêm ảnh</Text>
               </Pressable>
             </View>
@@ -2450,7 +3029,7 @@ function MuseScreen({
               <View style={styles.referenceList}>
                 {images.map((image, index) => (
                   <View key={`${image.name}-${index}`} style={styles.referenceItem}>
-                    <Ionicons name="image-outline" size={15} color="#7658F6" />
+                    <Ionicons name="image-outline" size={15} color="#8B7CFF" />
                     <Text numberOfLines={1} style={styles.referenceName}>
                       {image.name}
                     </Text>
@@ -2478,7 +3057,7 @@ function MuseScreen({
                 style={styles.dropzone}
               >
                 <View style={styles.dropzoneIcon}>
-                  <Ionicons name="cloud-upload-outline" size={19} color="#7456E8" />
+                  <Ionicons name="cloud-upload-outline" size={19} color="#A78BFA" />
                 </View>
                 <Text style={styles.dropzoneTitle}>Thêm ảnh để định hướng khung hình</Text>
                 <Text style={styles.dropzoneText}>Chọn JPEG, PNG, WEBP hoặc GIF · tối đa 8 MB/ảnh</Text>
@@ -2488,9 +3067,9 @@ function MuseScreen({
             {jobStatus ? (
               <View style={styles.jobNotice}>
                 {busy ? (
-                  <ActivityIndicator size="small" color="#7658F6" />
+                  <ActivityIndicator size="small" color="#8B7CFF" />
                 ) : (
-                  <Ionicons name="checkmark-circle" size={16} color="#32977F" />
+                  <Ionicons name="checkmark-circle" size={16} color="#34D399" />
                 )}
                 <Text style={styles.jobNoticeText}>{jobStatus}</Text>
               </View>
@@ -2516,7 +3095,7 @@ function MuseScreen({
                     )
                   }
                 >
-                  <Ionicons name="play-circle" size={23} color="#7658F6" />
+                  <Ionicons name="play-circle" size={23} color="#8B7CFF" />
                 </Pressable>
               </View>
             ))}
@@ -2582,7 +3161,7 @@ function EmptyScreen({ screen, onExplore }: { screen: Screen; onExplore: () => v
           <Ionicons
             name={isProjects ? "folder-open-outline" : "time-outline"}
             size={28}
-            color="#7658F6"
+            color="#8B7CFF"
           />
         </View>
         <View style={styles.emptyArtworkDot} />
@@ -2645,7 +3224,7 @@ function NavigationItem({
         pressed && styles.navItemPressed,
       ]}
     >
-      <Ionicons name={icon} size={19} color={active ? "#7054E8" : "#858393"} />
+      <Ionicons name={icon} size={19} color={active ? "#A78BFA" : "#858393"} />
       <Text style={[styles.navLabel, active && styles.navLabelActive]}>
         {label === "Muse" ? "TDLUXY" : label}
       </Text>
