@@ -35,7 +35,7 @@ export const isCloudflareQuickTunnel =
   window.location.hostname.endsWith(".trycloudflare.com");
 export const MUSE_API_URL =
   process.env.EXPO_PUBLIC_MUSE_API_URL?.replace(/\/+$/, "") ||
-  (isCloudflareQuickTunnel
+  (Platform.OS === "web" && typeof window !== "undefined"
     ? window.location.origin
     : Platform.OS === "android"
       ? "http://10.0.2.2:8787"
