@@ -231,7 +231,7 @@ export function AdminScreen({
           <Ionicons
             name={refreshing ? "time-outline" : "refresh-outline"}
             size={16}
-            color="#2B2214"
+            color="#F5E7C8"
           />
           <Text style={styles.adminRefreshText}>
             {refreshing ? "Đang tải" : "Làm mới"}
@@ -340,7 +340,7 @@ export function AdminScreen({
           style={({ pressed }) => [styles.adminSettingsButton, pressed && styles.buttonPressed]}
         >
           <Text style={styles.adminSettingsButtonText}>Cấu hình</Text>
-          <Ionicons name="arrow-forward" size={14} color="#3A2E18" />
+          <Ionicons name="arrow-forward" size={14} color="#F2C169" />
         </Pressable>
       </View>
     </View>
