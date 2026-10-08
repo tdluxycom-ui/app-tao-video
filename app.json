@@ -22,8 +22,10 @@
       "bundler": "metro",
       "name": "TDLUXY Studio",
       "shortName": "TDLUXY",
-      "themeColor": "#7057FF",
-      "backgroundColor": "#F7F7FB"
+      "description": "TDLUXY Studio — studio sáng tạo nội dung bằng AI: tạo video, tạo ảnh, chat AI, sửa ảnh, ghép collage. Biến ý tưởng thành tác phẩm.",
+      "lang": "vi",
+      "themeColor": "#07050D",
+      "backgroundColor": "#07050D"
     },
     "plugins": [
       "expo-font",
