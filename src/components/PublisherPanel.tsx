@@ -218,7 +218,7 @@ export function PublisherPanel() {
               <Ionicons
                 name={icon}
                 size={16}
-                color={platform === value ? "#A78BFA" : "#8C88A1"}
+                color={platform === value ? "#4A3290" : "#8C88A1"}
               />
               <Text
                 style={[
@@ -256,7 +256,7 @@ export function PublisherPanel() {
               disabled={busy}
               style={styles.publisherToolbarButton}
             >
-              <Ionicons name="cloud-upload-outline" size={15} color="#A78BFA" />
+              <Ionicons name="cloud-upload-outline" size={15} color="#4A3290" />
               <Text style={styles.publisherToolbarText}>Chọn video</Text>
             </Pressable>
             <Pressable
@@ -264,14 +264,14 @@ export function PublisherPanel() {
               onPress={() => void sendInput({ action: "back" })}
               style={styles.publisherToolbarButton}
             >
-              <Ionicons name="arrow-back" size={15} color="#A78BFA" />
+              <Ionicons name="arrow-back" size={15} color="#4A3290" />
             </Pressable>
             <Pressable
               accessibilityRole="button"
               onPress={() => void sendInput({ action: "reload" })}
               style={styles.publisherToolbarButton}
             >
-              <Ionicons name="refresh" size={15} color="#A78BFA" />
+              <Ionicons name="refresh" size={15} color="#4A3290" />
             </Pressable>
             <Pressable
               accessibilityRole="button"
@@ -337,14 +337,14 @@ export function PublisherPanel() {
               onPress={() => void sendInput({ action: "scroll", delta_y: -600 })}
               style={styles.publisherToolbarButton}
             >
-              <Ionicons name="chevron-up" size={16} color="#A78BFA" />
+              <Ionicons name="chevron-up" size={16} color="#4A3290" />
             </Pressable>
             <Pressable
               accessibilityRole="button"
               onPress={() => void sendInput({ action: "scroll", delta_y: 600 })}
               style={styles.publisherToolbarButton}
             >
-              <Ionicons name="chevron-down" size={16} color="#A78BFA" />
+              <Ionicons name="chevron-down" size={16} color="#4A3290" />
             </Pressable>
             <Text style={styles.publisherFrameText}>
               Khung hình làm mới mỗi ~1,7 giây · chạm vào ảnh để click.
