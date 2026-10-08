@@ -110,6 +110,77 @@ export function VideoViewerModal({
   );
 }
 
+function useHover() {
+  const [hovered, setHovered] = useState(false);
+  return {
+    hovered,
+    onHoverIn: () => setHovered(true),
+    onHoverOut: () => setHovered(false),
+  };
+}
+
+function MuseMediaGridItem({
+  image,
+  onOpen,
+  onSave,
+}: {
+  image: MuseMediaOutput;
+  onOpen: (image: MuseMediaOutput) => void;
+  onSave: (image: MuseMediaOutput) => void;
+}) {
+  const thumbHover = useHover();
+  const saveHover = useHover();
+  return (
+    <View style={styles.museMediaItem}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`Mở ảnh ${image.name} độ phân giải ${image.width} nhân ${image.height}`}
+        onPress={() => onOpen(image)}
+        onHoverIn={thumbHover.onHoverIn}
+        onHoverOut={thumbHover.onHoverOut}
+        style={({ pressed }) => [
+          styles.museMediaImageButton,
+          styles.hoverTransition,
+          pressed && styles.buttonPressed,
+          thumbHover.hovered && !pressed && styles.cardHover,
+        ]}
+      >
+        <Image
+          source={{ uri: image.previewUri }}
+          style={styles.museMediaThumbnail}
+          resizeMode="contain"
+        />
+        <View style={styles.museMediaResolution}>
+          <Ionicons name="scan-outline" size={11} color="#FFFFFF" />
+          <Text style={styles.museMediaResolutionText}>
+            {image.width} × {image.height}
+          </Text>
+        </View>
+        <View style={styles.museMediaZoom}>
+          <Ionicons name="expand-outline" size={14} color="#FFFFFF" />
+        </View>
+      </Pressable>
+      <Text numberOfLines={1} style={styles.museMediaName}>{image.name}</Text>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`Lưu ảnh gốc ${image.name}`}
+        onPress={() => onSave(image)}
+        onHoverIn={saveHover.onHoverIn}
+        onHoverOut={saveHover.onHoverOut}
+        style={({ pressed }) => [
+          styles.mediaSaveButton,
+          styles.hoverTransition,
+          pressed && styles.buttonPressed,
+          saveHover.hovered && !pressed && styles.buttonHover,
+        ]}
+      >
+        <Ionicons name="download-outline" size={15} color="#FFFFFF" />
+        <Text style={styles.mediaSaveButtonText}>Lưu ảnh gốc</Text>
+      </Pressable>
+    </View>
+  );
+}
+
 export function MuseMediaGallery({
   media,
   errors,
@@ -120,6 +191,8 @@ export function MuseMediaGallery({
   onSave: (image: MuseMediaOutput) => void;
 }) {
   const [selected, setSelected] = useState<MuseMediaOutput | null>(null);
+  const closeHover = useHover();
+  const lightboxSaveHover = useHover();
   if (media.length === 0 && errors.length === 0) return null;
   return (
     <View style={styles.museMediaGallery}>
@@ -137,42 +210,12 @@ export function MuseMediaGallery({
       ))}
       <View style={styles.museMediaGrid}>
         {media.map((image, index) => (
-          <View key={`${image.name}-${index}`} style={styles.museMediaItem}>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={`Mở ảnh ${image.name} độ phân giải ${image.width} nhân ${image.height}`}
-              onPress={() => setSelected(image)}
-              style={styles.museMediaImageButton}
-            >
-              <Image
-                source={{ uri: image.previewUri }}
-                style={styles.museMediaThumbnail}
-                resizeMode="contain"
-              />
-              <View style={styles.museMediaResolution}>
-                <Ionicons name="scan-outline" size={11} color="#FFFFFF" />
-                <Text style={styles.museMediaResolutionText}>
-                  {image.width} × {image.height}
-                </Text>
-              </View>
-              <View style={styles.museMediaZoom}>
-                <Ionicons name="expand-outline" size={14} color="#FFFFFF" />
-              </View>
-            </Pressable>
-            <Text numberOfLines={1} style={styles.museMediaName}>{image.name}</Text>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={`Lưu ảnh gốc ${image.name}`}
-              onPress={() => onSave(image)}
-              style={({ pressed }) => [
-                styles.mediaSaveButton,
-                pressed && styles.buttonPressed,
-              ]}
-            >
-              <Ionicons name="download-outline" size={15} color="#FFFFFF" />
-              <Text style={styles.mediaSaveButtonText}>Lưu ảnh gốc</Text>
-            </Pressable>
-          </View>
+          <MuseMediaGridItem
+            key={`${image.name}-${index}`}
+            image={image}
+            onOpen={setSelected}
+            onSave={onSave}
+          />
         ))}
       </View>
       <Modal
@@ -197,7 +240,14 @@ export function MuseMediaGallery({
               accessibilityRole="button"
               accessibilityLabel="Đóng xem ảnh"
               onPress={() => setSelected(null)}
-              style={styles.museImageLightboxClose}
+              onHoverIn={closeHover.onHoverIn}
+              onHoverOut={closeHover.onHoverOut}
+              style={({ pressed }) => [
+                styles.museImageLightboxClose,
+                styles.hoverTransition,
+                pressed && styles.buttonPressed,
+                closeHover.hovered && !pressed && styles.buttonHover,
+              ]}
             >
               <Ionicons name="close" size={22} color="#FFFFFF" />
             </Pressable>
@@ -213,7 +263,14 @@ export function MuseMediaGallery({
             <Pressable
               accessibilityRole="button"
               onPress={() => onSave(selected)}
-              style={styles.museImageLightboxSave}
+              onHoverIn={lightboxSaveHover.onHoverIn}
+              onHoverOut={lightboxSaveHover.onHoverOut}
+              style={({ pressed }) => [
+                styles.museImageLightboxSave,
+                styles.hoverTransition,
+                pressed && styles.buttonPressed,
+                lightboxSaveHover.hovered && !pressed && styles.buttonHover,
+              ]}
             >
               <Ionicons name="download-outline" size={17} color="#FFFFFF" />
               <Text style={styles.mediaSaveButtonText}>Lưu ảnh gốc</Text>
@@ -222,6 +279,43 @@ export function MuseMediaGallery({
         </View>
       </Modal>
     </View>
+  );
+}
+
+function PresetChip({
+  label,
+  active,
+  onPress,
+}: {
+  label: string;
+  active: boolean;
+  onPress: () => void;
+}) {
+  const hover = useHover();
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityState={{ selected: active }}
+      onPress={onPress}
+      onHoverIn={hover.onHoverIn}
+      onHoverOut={hover.onHoverOut}
+      style={({ pressed }) => [
+        styles.mediaPresetChip,
+        styles.hoverTransition,
+        active && styles.mediaPresetChipActive,
+        pressed && styles.buttonPressed,
+        hover.hovered && !pressed && !active && styles.cardHover,
+      ]}
+    >
+      <Text
+        style={[
+          styles.mediaPresetText,
+          active && styles.mediaPresetTextActive,
+        ]}
+      >
+        {label}
+      </Text>
+    </Pressable>
   );
 }
 
@@ -263,11 +357,15 @@ export function StudioTaskPanel({
   const needsImageFiles = task === "edit-image" || task === "collage";
   const imageCountValid = task === "collage" ? images.length >= 2 : images.length >= 1;
   const canRun = needsImageFiles ? imageCountValid : Boolean(brief.trim());
+  const pickHover = useHover();
+  const runHover = useHover();
+  const resultSaveHover = useHover();
   const config = {
     image: {
       eyebrow: "IMAGE CONCEPT",
-      title: "Sáng tạo concept hình ảnh",
-      description: "Biến mô tả thành brief hình ảnh và prompt chi tiết để đưa vào công cụ tạo ảnh.",
+      title: "Vẽ nên bức ảnh trong đầu bạn",
+      description:
+        "Mô tả điều bạn hình dung — TDLUXY viết brief và prompt chi tiết, sẵn dùng cho mọi công cụ tạo ảnh.",
       placeholder: "Mô tả chủ thể, phong cách, màu sắc, bối cảnh hoặc cảm xúc bạn muốn…",
       action: "Tạo prompt bằng chat Muse",
       limitation: "TDLUXY hiện tạo concept/prompt bằng chat; Muse bridge chưa có model xuất tệp ảnh độc lập.",
@@ -275,17 +373,18 @@ export function StudioTaskPanel({
     },
     "edit-image": {
       eyebrow: "IMAGE WORKFLOW",
-      title: "Trợ lý chỉnh sửa ảnh",
-      description: "Chỉnh sáng, tương phản, màu sắc và độ nét trực tiếp bằng preset cục bộ.",
+      title: "Ảnh đẹp hơn trong một chạm",
+      description:
+        "Chỉnh sáng, tương phản, màu sắc và độ nét — ảnh sản phẩm hay ảnh đăng mạng xã hội đều xử lý ngay tại đây.",
       placeholder: "Ví dụ: làm ảnh sản phẩm sáng hơn, nền màu kem, giữ nguyên chi tiết nhãn…",
-      action: "Chỉnh ảnh thật",
+      action: "Chỉnh ảnh ngay",
       limitation: "Ảnh được xử lý trên backend bằng Pillow; xóa nền và retouch AI nâng cao chưa có model.",
       icon: "color-wand-outline" as const,
     },
     collage: {
       eyebrow: "PHOTO STORY",
-      title: "Thiết kế câu chuyện ghép ảnh",
-      description: "Chọn 2–4 ảnh để xuất collage dọc 1080 × 1350.",
+      title: "Ghép khoảnh khắc thành câu chuyện",
+      description: "Chọn 2–4 ảnh — TDLUXY ghép thành collage dọc 1080 × 1350, chuẩn để đăng story.",
       placeholder: "Ví dụ: 4 ảnh chuyến đi Đà Lạt, làm collage dọc để đăng story…",
       action: "Ghép và xuất ảnh",
       limitation: "Ghép ảnh dạng lưới 2 × 2 với crop căn giữa; chưa có lớp chữ hoặc template tùy chỉnh.",
@@ -293,8 +392,9 @@ export function StudioTaskPanel({
     },
     "edit-video": {
       eyebrow: "VIDEO EDIT",
-      title: "Trợ lý biên tập video",
-      description: "Lập timeline, điểm cắt, phụ đề và nhịp dựng cho nội dung của bạn.",
+      title: "Kế hoạch dựng trong vài phút",
+      description:
+        "Mô tả video của bạn — TDLUXY lập timeline, điểm cắt, phụ đề và nhịp dựng chi tiết.",
       placeholder: "Mô tả video, thời lượng, nền tảng đăng và phong cách dựng mong muốn…",
       action: "Lập kế hoạch dựng",
       limitation: "Muse bridge đang tạo video mới; chức năng cắt, ghép và xuất lại video nguồn chưa được tích hợp.",
@@ -326,9 +426,13 @@ export function StudioTaskPanel({
             accessibilityRole="button"
             disabled={busy}
             onPress={onChooseImages}
+            onHoverIn={pickHover.onHoverIn}
+            onHoverOut={pickHover.onHoverOut}
             style={({ pressed }) => [
               styles.mediaPickButton,
+              styles.hoverTransition,
               pressed && styles.buttonPressed,
+              pickHover.hovered && !pressed && !busy && styles.buttonHover,
             ]}
           >
             <Ionicons name="images-outline" size={16} color="#A78BFA" />
@@ -346,25 +450,12 @@ export function StudioTaskPanel({
                 ["warm", "Tông ấm"],
                 ["mono", "Đen trắng"],
               ] as const).map(([value, label]) => (
-                <Pressable
+                <PresetChip
                   key={value}
-                  accessibilityRole="button"
-                  accessibilityState={{ selected: imagePreset === value }}
+                  label={label}
+                  active={imagePreset === value}
                   onPress={() => onImagePresetChange(value)}
-                  style={[
-                    styles.mediaPresetChip,
-                    imagePreset === value && styles.mediaPresetChipActive,
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.mediaPresetText,
-                      imagePreset === value && styles.mediaPresetTextActive,
-                    ]}
-                  >
-                    {label}
-                  </Text>
-                </Pressable>
+                />
               ))}
             </View>
           ) : null}
@@ -399,10 +490,14 @@ export function StudioTaskPanel({
         accessibilityRole="button"
         disabled={!canRun || busy}
         onPress={onRun}
+        onHoverIn={runHover.onHoverIn}
+        onHoverOut={runHover.onHoverOut}
         style={({ pressed }) => [
           styles.studioRunButton,
+          styles.hoverTransition,
           (!canRun || busy) && styles.disabledButton,
           pressed && styles.buttonPressed,
+          runHover.hovered && !pressed && canRun && !busy && styles.buttonHover,
         ]}
       >
         {busy ? (
@@ -428,9 +523,13 @@ export function StudioTaskPanel({
               <Pressable
                 accessibilityRole="button"
                 onPress={onSaveImage}
+                onHoverIn={resultSaveHover.onHoverIn}
+                onHoverOut={resultSaveHover.onHoverOut}
                 style={({ pressed }) => [
                   styles.mediaSaveButton,
+                  styles.hoverTransition,
                   pressed && styles.buttonPressed,
+                  resultSaveHover.hovered && !pressed && styles.buttonHover,
                 ]}
               >
                 <Ionicons name="download-outline" size={16} color="#FFFFFF" />
