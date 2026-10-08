@@ -74,7 +74,11 @@ export function VideoLibraryScreen({
     job.prompt.toLocaleLowerCase("vi").includes(query) ||
     job.videos.some((video) => video.name.toLocaleLowerCase("vi").includes(query)),
   );
-  const title = screen === "Dự án" ? "Thư viện sáng tạo" : "Lịch sử tác vụ";
+  const title = screen === "Dự án" ? "Thư viện sáng tạo" : "Nhật ký sáng tạo";
+  const subheading =
+    screen === "Dự án"
+      ? "Bộ sưu tập video AI bạn đã tạo — xem lại, tải xuống và làm mới bất cứ lúc nào."
+      : "Mọi ý tưởng bạn từng gửi — từ đang chờ đến hoàn tất, tất cả được ghi lại tại đây.";
 
   return (
     <View style={styles.libraryScreen}>
@@ -84,9 +88,7 @@ export function VideoLibraryScreen({
             {screen === "Dự án" ? "VIDEO CỦA BẠN" : "TÁC VỤ TDLUXY"}
           </Text>
           <Text style={styles.sectionHeading}>{title}</Text>
-          <Text style={styles.sectionSubheading}>
-            Prompt, trạng thái và video được lưu cục bộ trên backend này.
-          </Text>
+          <Text style={styles.sectionSubheading}>{subheading}</Text>
         </View>
         <Pressable
           accessibilityRole="button"
@@ -116,13 +118,24 @@ export function VideoLibraryScreen({
       {error ? <InlineNotice tone="error" message={error} /> : null}
       {usage ? (
         <View style={styles.libraryCard}>
-          <Text style={styles.libraryPrompt}>Hạn mức video của bạn</Text>
-          <Text style={styles.sectionSubheading}>
-            Đang chờ/chạy: {usage.active}/{usage.active_limit} · Hôm nay (UTC): {usage.daily}/{usage.daily_limit}
-          </Text>
-          <Text style={styles.sectionSubheading}>
-            Đã lưu {(usage.used_bytes / 1024 ** 2).toFixed(0)} MB · Giữ chỗ {(usage.reserved_bytes / 1024 ** 2).toFixed(0)} MB / {(usage.storage_limit_bytes / 1024 ** 3).toFixed(1)} GB
-          </Text>
+          <View style={styles.libraryQuotaHeader}>
+            <View style={styles.libraryQuotaIcon}>
+              <Ionicons name="speedometer-outline" size={18} color="#A78BFA" />
+            </View>
+            <Text style={styles.libraryQuotaTitle}>Hạn mức video của bạn</Text>
+          </View>
+          <View style={styles.libraryQuotaRow}>
+            <Text style={styles.libraryQuotaLabel}>Đang chờ / chạy</Text>
+            <Text style={styles.libraryQuotaValue}>{usage.active}/{usage.active_limit}</Text>
+          </View>
+          <View style={styles.libraryQuotaRow}>
+            <Text style={styles.libraryQuotaLabel}>Hôm nay (UTC)</Text>
+            <Text style={styles.libraryQuotaValue}>{usage.daily}/{usage.daily_limit}</Text>
+          </View>
+          <View style={styles.libraryQuotaRow}>
+            <Text style={styles.libraryQuotaLabel}>Dung lượng đã dùng</Text>
+            <Text style={styles.libraryQuotaValue}>{(usage.used_bytes / 1024 ** 2).toFixed(0)} MB / {(usage.storage_limit_bytes / 1024 ** 3).toFixed(1)} GB</Text>
+          </View>
         </View>
       ) : null}
 
@@ -131,7 +144,9 @@ export function VideoLibraryScreen({
           <View style={styles.libraryEmptyIcon}>
             <Ionicons name="sync-outline" size={22} color="#A78BFA" />
           </View>
-          <Text style={styles.libraryEmptyTitle}>Đang tải thư viện…</Text>
+          <Text style={styles.libraryEmptyTitle}>
+            {screen === "Dự án" ? "Đang tải thư viện…" : "Đang tải nhật ký…"}
+          </Text>
           <Text style={styles.libraryEmptyText}>Đang đồng bộ các tác vụ đã lưu từ backend.</Text>
         </View>
       ) : visibleJobs.length ? (
@@ -242,12 +257,18 @@ export function VideoLibraryScreen({
             <Ionicons name={search ? "search-outline" : "film-outline"} size={22} color="#A78BFA" />
           </View>
           <Text style={styles.libraryEmptyTitle}>
-            {search ? "Không tìm thấy tác vụ" : "Chưa có video trong thư viện"}
+            {search
+              ? "Không tìm thấy tác vụ"
+              : screen === "Dự án"
+                ? "Thư viện đang chờ tác phẩm đầu tiên"
+                : "Chưa có tác vụ nào"}
           </Text>
           <Text style={styles.libraryEmptyText}>
             {search
               ? "Thử từ khóa khác hoặc xóa nội dung tìm kiếm."
-              : "Video và prompt hoàn tất từ Muse sẽ tự xuất hiện tại đây."}
+              : screen === "Dự án"
+                ? "Mô tả ý tưởng của bạn và để Muse biến nó thành video — thành quả sẽ tự xuất hiện tại đây."
+                : "Mọi lần bạn gửi prompt đều được ghi lại — hãy tạo video đầu tiên để bắt đầu hành trình."}
           </Text>
           {!search ? (
             <Pressable
